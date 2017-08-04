@@ -1,4 +1,5 @@
 # LancetCMS
 MIT License
 
-Window-based Interactive System
+Данная система создана на основе CodeIgniter 3. 
+Позволяет реализовывать сайты с оконным интерфейсом.
