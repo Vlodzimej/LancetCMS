@@ -1,0 +1,537 @@
+
+<style>
+
+input { margin: 4px;  }
+.lancet-icon {
+    width: 100%;
+    text-align: center;
+    border: 1px solid lightgrey;
+    background-color: #ffffff;
+}
+#current-image {
+    margin: 4px;
+}
+.fileinput-button{
+    align: center;
+}
+
+.lancet-viewslist
+{
+	overflow-y: auto;
+    height: 770px;
+}
+
+.lancet-viewslist-item
+{
+	padding: 4px;
+	margin: 4px;
+	margin-right: 8px;
+	cursor: pointer;
+
+}
+.lancet-viewslist-item:hover {
+	cursor: pointer;
+	background-color: rgba(255,255,255, 0.9);
+	color: black;
+	border-radius: 4px;
+	border: 1px solid black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-left: 3px;
+
+}
+.selected
+{
+	background-color: #6699FF;
+	color: white;
+	border-radius: 4px;
+	border: 1px solid black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-left: 3px;
+}
+
+.block-title
+{
+	border: 1px solid lightgrey;;
+	width: 100%;
+	height: 24px;
+	padding: 4px;
+	background-color: rgba(0, 0, 0, 0.05);
+}
+.block-content
+{
+	border: 1px solid lightgrey;
+	width: 100%;
+	padding: 4px;
+	background-color: rgba(255,255,255, 0.5);
+}
+.block-bottom
+{
+	border: 1px solid lightgrey;
+	width: 550px;
+	padding: 4px;
+	background-color: rgba(255,255,255, 0.5);
+}
+
+.lancet-col-1
+{
+	width: 31%;
+	height: 800px; display: inline-block;
+	float: left;
+}
+.lancet-col-2
+{
+	width: 62%;
+	height: 800px; display: inline-block;
+	float: left;
+}
+.lancet-col-3
+{
+	width: 93%;
+	height: 800px; display: inline-block;
+	float: left;
+}
+
+
+
+</style>
+
+<!---------MANAGER----------->
+<!---->
+<div style='width: 38%; ' class='lancet-col-1'>
+
+<div style='display: inline-block; width: 320px; padding: 4px; margin: 4px;'>
+
+
+<div class='block-title'>
+<b>Views</b>
+</div>
+<div class='lancet-viewslist block-content'>
+</div>
+</div>
+
+</div>
+
+<div class='lancet-col-2'>
+<div style='overflow-y: auto; height: 780px;'>
+
+<!---------CONTENT-------->
+<div style='display: inline-block; width: 530px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Content</b>
+</div>
+<div class='block-content'>
+    <div style='width: 25%; float: left; text-align: center; '>
+        <button style='width: 80%;' class='lancet-btn' id='lancet-viewsplant-open-editor-html'>HTML</button>
+    </div>
+    <div style='width: 25%; float: left; text-align: center; '>
+        <button style='width: 80%' class='lancet-btn' id='lancet-viewsplant-open-editor-javascript'>JavaScript</button>
+    </div>
+    <div style='width: 25%; float: left; text-align: center; '>
+        <button style='width: 80%'class='lancet-btn' id='lancet-viewsplant-open-editor-body'>Body</button>
+    </div>
+    <div style='width: 25%; float: left; text-align: center; '>
+        <button style='width: 80%' class='lancet-btn' id='lancet-viewsplant-open-editor-inputs'>Inputs</button>
+    </div>
+
+<textarea id='view_content' style='resize: none; width: 100%; height: 100;'></textarea>
+</div>
+</div>
+<!---------JAVASCRIPT-------->
+<div style='display: inline-block; width: 530px; padding: 4px; margin: 4px;'>
+
+<div class='block-title'>
+
+<div style='width: 50%; float: left;'>
+<b>JavaScript</b>
+</div>
+
+<div style='width: 50%; float: left; text-align: right;'>
+<button class='lancet-btn' id='lancet-viewsplant-open-editor'>Open in Editor</button>
+</div>
+
+<div style='clear: both'></div>
+
+</div>
+
+
+
+<div class='block-content'>
+<textarea id='view_jscript' style='resize: none; width: 100%; height: 100;'></textarea>
+</div>
+</div>
+<!---------BODY-------->
+<div style='display: inline-block; width: 530px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Body</b>
+</div>
+<div class='block-content'>
+<textarea id='view_body' style='resize: none; width: 100%; height: 100;'></textarea>
+</div>
+</div>
+<!---------INPUTS-------->
+<div style='display: inline-block; width: 530px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Inputs</b>
+</div>
+<div class='block-content'>
+<textarea id='view_inputs' style='resize: none; width: 100%; height: 100;'></textarea>
+</div>
+</div>
+
+<!---------PROPERTIES-------->
+<div style='display: inline-block; float: left;  width: 257px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Properties</b>
+</div>
+<div class='block-content'>
+<input type='checkbox' id='view_checkbox_prop_launcher'>Launcher<br>
+<input type='checkbox' id='view_checkbox_prop_center'>Center<br>
+<input type='checkbox' id='view_checkbox_prop_modal'>Modal<br>
+<input type='checkbox' id='view_checkbox_prop_fixed'>Fixed<br>
+<input type='checkbox' id='view_checkbox_prop_maximized'>Maximized<br>
+<input type='checkbox' id='view_checkbox_prop_locked'>Locked<br>
+<input type='checkbox' id='view_checkbox_prop_freedrag'>Freedrag<br>
+<input type='checkbox' id='view_checkbox_prop_single'>Single<br>
+<input type='checkbox' id='view_checkbox_prop_resizable'>Resizable<br>
+</div>
+</div>
+<!---------SIZES------------>
+<div style='display: inline-block; float: left;  width: 257px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Sizes</b>
+</div>
+<div class='block-content'>
+<div style='width: 50px; display: inline-block;'>Width:</div>
+<input type='text' size='12' id='view_width'><br>
+<div style='width: 50px; display: inline-block;'>Height:</div>
+<input type='text' size='12' id='view_height'>
+</div>
+</div>
+<!---------INFO------------>
+<div style='display: inline-block; float: left;  width: 257px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Info</b>
+</div>
+<div class='block-content'>
+<div style='width: 50px; display: inline-block;'>Title:</div>
+<input type='text' size='12' id='view_title'><br>
+<div style='width: 50px; display: inline-block;'>Name:</div>
+<input type='text' size='12' id='view_name'><br>
+Icon
+<div class='lancet-icon'>
+<form action="index.php/main/upload_image" id="fileupload" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                                <span class="fileinput-button">
+                                <div id='upload-image'></div>
+				<input type="file" name="userfile" multiple>
+			</span>
+</form>
+                                <div id="progress" class="progress" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-success"></div>
+                                </div>
+                                <div id="error"></div>
+                                <div id="files"></div>
+                                <div id="success"></div>
+                                </div>
+</div>
+</div>
+<!---------BUTTONS------------>
+<div style='display: inline-block; float: left;  width: 257px; padding: 4px; margin: 4px;'>
+<div class='block-title'>
+<b>Buttons</b>
+</div>
+<div class='block-content'>
+<input type='checkbox' id='view_checkbox_max'>Max
+<input type='checkbox' id='view_checkbox_min'>Min
+<input type='checkbox' id='view_checkbox_close' checked disabled>Close
+</div>
+</div>
+
+<div style='clear: both;'></div>
+</div>
+<div class='block-bottom'>
+<input type='button' class='lancet-btn' value='Update' id='viewsplant_button_update' disabled='true'>
+<input type='button' class='lancet-btn' value='Delete' id='viewsplant_button_delete'>
+<input type='button' class='lancet-btn' value='New' id='viewsplant_button_clean'>
+<input type='button' class='lancet-btn' value='Add' id='viewsplant_button_add'>
+<input type='button' class='lancet-btn' value='Show' id='viewsplant_button_show'>
+</div>
+</div>
+
+
+<script type="text/javascript" >
+
+
+$(function(){
+
+    Lancet.createImage({
+        imageID: '1',
+        elementID: 'upload-image',
+        class: '',
+        id: 'current-image',
+        alt: '',
+        css: {
+            maxWidth: '150px',
+            maxHeight: '150px'
+        }
+    });
+
+    Lancet.loadScript('../assets/upload.js');
+
+    $('#userfile').on('change', function(){
+    });
+
+    $('#lancet-viewsplant-open-editor-html').on('click', function(){
+        //Send Name of editing View to the Editor View
+        Lancet.Controller.execute('!run editor_html '+$('#view_name').val());
+    });
+
+    $('#lancet-viewsplant-open-editor-javascript').on('click', function(){
+        //Send Name of editing View to the Editor View
+        Lancet.Controller.execute('!run editor_javascript '+$('#view_name').val());
+    });
+
+    $('#lancet-viewsplant-open-editor-body').on('click', function(){
+        //Send Name of editing View to the Editor View
+        Lancet.Controller.execute('!run editor_body '+$('#view_name').val());
+    });
+
+    $('#lancet-viewsplant-open-editor-inputs').on('click', function(){
+        //Send Name of editing View to the Editor View
+        Lancet.Controller.execute('!run editor_inputs '+$('#view_name').val());
+    });
+
+
+	var selected_view = '';
+
+	update_views_list();
+
+	function update_views_list() {
+
+	$('.lancet-viewslist').empty();
+
+		$.ajax('index.php/main/get_all_views').
+		done(function(data){
+			views = $.parseJSON(data);
+			$.each(views, function(index, view){
+				$('<\div>', {
+					html: view.name,
+					class: 'lancet-viewslist-item'
+				}).
+				on('click', function(){
+					$('#viewsplant_button_update').prop('disabled', false);
+					$('#viewsplant_button_delete').prop('disabled', false);
+					$('#view_name').prop('disabled', true);
+
+					load_view(view.name);
+					$('.lancet-viewslist-item').removeClass('selected');
+					$(this).addClass('selected');
+				}).
+				appendTo('.lancet-viewslist');
+			});
+		});
+	}
+
+
+	$('#viewsplant_button_update').on('click', function(){
+        var view = create_view_data();
+
+		if(view.name != '') {
+			var json = '{ ';
+			//Convert date of View into text JSON-object
+			$.each(view, function(index, value){
+				json += '"'+index+'" : "'+value+'", ';
+			});
+			json += ' }';
+            console.log(json);
+            //Call of API function for add new View
+			$.post('index.php/main/update_view', {'new_view_data' : view }, function(result){console.log(result);})
+			.done(function(){
+				Lancet.showMessage('info_view_update_done');
+				update_views_list();
+			}).
+			fail(function(){
+				Lancet.showMessage('info_view_update_fail');
+			});
+		} else {
+			Lancet.showMessage('info_view_add_name_empty');
+		}
+
+	});
+
+	$('#viewsplant_button_delete').on('click', function(){
+		$.ajax('index.php/main/delete_view/'+selected_view['name']).
+		done(function(){
+			update_views_list();
+		});
+
+	});
+
+	$('#viewsplant_button_clean').on('click', function(){
+		//Lancet.Controller.execute('!var|<br>Do you want to clean?<br><br>|confirm_text !confirm confirm_text');
+		$('#viewsplant_button_update').prop('disabled', true);
+		$('#viewsplant_button_delete').prop('disabled', true);
+		$('#view_name').prop('disabled', false);
+		select_view = '';
+		clean_inputs();
+
+	});
+
+	$('#viewsplant_button_add').on('click', function(){
+		var view = create_view_data();
+        //Check value of name
+		if(view.name != '') {
+            //Name of adding View cannot equals name of existing View
+			if(view.name != selected_view.name) {
+				var json = '{ ';
+				//Перевод данных объекта в формат JSON
+				$.each(view, function(index, value){
+					json += '"'+index+'" : "'+value+'", ';
+				});
+				json += ' }';
+				console.log(view);
+				$.post('index.php/main/add_view', {'new_view_data' : view }, function(result){console.log(result);})
+				.done(function(){
+					Lancet.showMessage('info_view_add_done');
+					update_views_list();
+				}).
+				fail(function(){
+					Lancet.showMessage('info_view_add_fail');
+				});
+			} else {
+				Lancet.showMessage('info_view_add_name_exist');
+			}
+		} else {
+				Lancet.showMessage('info_view_add_name_empty');
+			}
+	});
+
+
+	$('#viewsplant_button_show').on('click', function(){
+		var view = create_view_data();
+		var v = new Lancet.View(view);
+	});
+
+	//Loading View data into the edit form of Views Plant
+	function load_view(name)
+	{
+		$.ajax('index.php/main/load_view/'+name).
+		done(function(data){
+			view = $.parseJSON(data);
+			selected_view = view;
+			clean_inputs();
+			$('#view_content').val(view.content);
+			$('#view_jscript').val(view.jscript);
+			$('#view_body').val(view.body);
+			$('#view_inputs').val(view.inputs);
+
+			$('#view_title').val(view.title);
+			$('#view_name').val(view.name);
+			$('#view_width').val(view.width);
+			$('#view_height').val(view.height);
+
+			var buttons = view.buttons.split(' ');
+
+            var iconFileName = Lancet.getImageFileName(view.icon);
+            Lancet.changeImage({ id: 'current-image', filename: iconFileName });
+
+
+			$.each(buttons, function(index, button){
+				switch(button) {
+					case 'close': $('#view_checkbox_close').prop('checked', true); break;
+					case 'min': $('#view_checkbox_min').prop('checked', true); break;
+					case 'max': $('#view_checkbox_max').prop('checked', true); break;
+				}
+			});
+
+			var properties = view.properties.split(' ');
+
+			$.each(properties, function(index, property){
+
+				switch(property) {
+					case 'center': $('#view_checkbox_prop_center').prop('checked', true); break;
+					case 'modal': $('#view_checkbox_prop_modal').prop('checked', true); break;
+					case 'fixed': $('#view_checkbox_prop_fixed').prop('checked', true); break;
+					case 'freedrag': $('#view_checkbox_prop_freedrag').prop('checked', true); break;
+					case 'resizable': $('#view_checkbox_prop_resizable').prop('checked', true); break;
+					case 'locked': $('#view_checkbox_prop_locked').prop('checked', true); break;
+					case 'single': $('#view_checkbox_prop_single').prop('checked', true); break;
+					case 'maximized': $('#view_checkbox_prop_maximized').prop('checked', true); break;
+				}
+			});
+			if(view.launcher == '1')
+				$('#view_checkbox_prop_launcher').prop('checked', true);
+			else
+				$('#view_checkbox_prop_launcher').prop('checked', false);
+		});
+	}
+
+
+	function clean_inputs()
+	{
+		$('#view_content').val('');
+		$('#view_jscript').val('');
+		$('#view_body').val('');
+		$('#view_inputs').val('');
+		$('#view_title').val('');
+		$('#view_name').val('');
+		$('#view_width').val('');
+		$('#view_height').val('');
+		$('#view_checkbox_prop_center').prop('checked', false);
+		$('#view_checkbox_prop_modal').prop('checked', false);
+		$('#view_checkbox_prop_fixed').prop('checked', false);
+		$('#view_checkbox_prop_freedrag').prop('checked', false);
+		$('#view_checkbox_prop_resizable').prop('checked', false);
+		$('#view_checkbox_prop_locked').prop('checked', false);
+		$('#view_checkbox_prop_single').prop('checked', false);
+		$('#view_checkbox_prop_maximized').prop('checked', false);
+		$('#view_checkbox_prop_launcher').prop('checked', false);
+		$('#view_checkbox_max').prop('checked', false);
+		$('#view_checkbox_min').prop('checked', false);
+		$('#view_checkbox_close').prop('checked', true);
+	}
+
+
+	function create_view_data()
+	{
+		inputs = window.inputs;
+		var body = $('#view_body').val();
+		var content = $('#view_content').val() || '';
+		var title = $('#view_title').val() || '';
+		var name = $('#view_name').val() || '';
+		var jscript = $('#view_jscript').val() || '';
+		var width =  $('#view_width').val() || '';
+		var height =  $('#view_height').val() || '';
+		var inputs = $('#view_inputs').val() || '';
+		var form = '';
+
+		var icon = window.images[window.images.length-1];
+
+		var buttons = [];
+		var properties = [];
+		var launcher = 0;
+
+	  	if($('#view_checkbox_close').prop('checked')) buttons.push('close');
+		if($('#view_checkbox_max').prop('checked')) buttons.push('max');
+		if($('#view_checkbox_min').prop('checked')) buttons.push('min');
+
+		if($('#view_checkbox_prop_center').prop('checked')) properties.push('center');
+		if($('#view_checkbox_prop_modal').prop('checked')) properties.push('modal');
+		if($('#view_checkbox_prop_fixed').prop('checked')) properties.push('fixed');
+		if($('#view_checkbox_prop_freedrag').prop('checked')) properties.push('freedrag');
+		if($('#view_checkbox_prop_resizable').prop('checked')) properties.push('resizable');
+		if($('#view_checkbox_prop_locked').prop('checked')) properties.push('locked');
+		if($('#view_checkbox_prop_single').prop('checked')) properties.push('single');
+		if($('#view_checkbox_prop_maximized').prop('checked')) properties.push('maximized');
+		if($('#view_checkbox_prop_launcher').prop('checked')) launcher = '1';
+
+		buttons = buttons.join(' ');
+		properties = properties.join(' ');
+		//console.log({ 'name' : name, 'title' : title, 'content' : content, 'buttons' : buttons, 'jscript' : jscript, 'properties' : properties, 'launcher' : launcher, 'width' : width, 'height' : height, 'icon' : icon, 'body' : body, 'inputs' : inputs, 'form' : form });
+		return { 'name' : name, 'title' : title, 'content' : content, 'buttons' : buttons, 'jscript' : jscript, 'properties' : properties, 'launcher' : launcher, 'width' : width, 'height' : height, 'icon' : icon, 'body' : body, 'inputs' : inputs, 'form' : form };
+
+	}
+});
+</script>

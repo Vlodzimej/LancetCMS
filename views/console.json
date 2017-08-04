@@ -1,0 +1,21 @@
+{
+	"name" : "console2",
+	"title" : {
+		"text" : "Console"
+	},
+	"buttons" : "close min max",
+	"body" : {
+		"backgroundColor" : "#000000",
+		"content" : "",
+		"align" : "left",
+		"marginBottom" : "20"
+	},
+	"inputs" : [ 
+		{ "type" : "console" }
+	],		
+	"width" : "640", 
+	"height" : "480",
+	"launch" : "true",
+	"icon" : "blueprint tool.png",
+	"properties" : "single freedrag center resizable"
+}

@@ -1,0 +1,18 @@
+[
+	"1\:panel show Hello!_This is a demonstration</br> of the LancetJS library", 
+	"5\:panel_close",
+	"6\:panel_show_We show you many features of this library.</br>LancetJS can help you to create a desktop-based system</br> with the implementation of the window interface.",
+	"14\:panel_close",
+	"15\:panel_show_All pages can be opened by using Launchers.</br> It is a component like shortcuts on your desktop.</br>Let`s begin! But first we will close window.",
+	"22\:panel_close_cursor_show",
+	"23\:cursor_moveto_470_185",
+	"24\:view_close",
+	"25\:panel_show_And now we open information section.",
+	"28\:panel_close",
+	"29\:cursor_moveto_330_115",
+	"30\:run_blank_200_60",
+	"31\:cursor_moveto_380_70",
+	"32\:cursor_move_-200_-50_view_move_-200_-50",
+	"33\:cursor_move_105_5",
+	"34\:view_maximize"
+]

@@ -1,0 +1,19 @@
+{
+	"title" : {
+		"text" : "Page one"
+	},
+	"body" : {
+		"content" : "Page 1",
+		"paddingHorizontal" : "12",
+		"paddingVertical" : "8"
+	},
+	"form" : {
+		"action" : "index.html",
+		"method" : "get"
+	},
+	"inputs" : [ 
+		{ "type" : "close", "value" : "Save" }
+	],
+	"width" : "320",
+	"height" : "240"
+}

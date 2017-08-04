@@ -1,0 +1,33 @@
+{
+	"name" : "modal",
+	"title" : {
+		"text" : "Applications"
+	},
+	"buttons" : "close",
+	"body" : {
+		"content" : "What component do you want to launch??",
+		"paddingHorizontal" : "6",
+		"paddingVertical" : "8",
+		"align" : "center"
+	},
+	"form" : {
+		"action" : "index.html",
+		"method" : "get"
+	},
+	"inputs" : [ 
+		{ "type" : "button", "value" : "Text", "return" : "confirm_Do you want to launch a text viewer?_run_blank" },
+		{ "type" : "button", "value" : "Image", "return" : "close_this" },
+		{ "type" : "button", "value" : "Video", "return" : "close_this" },
+		{ "type" : "button", "value" : "Audio", "return" : "close_this" },
+		{ "type" : "button", "value" : "Timeline", "return" : "start" }		
+	],	
+	"width" : "450", 
+	"height" : "130",
+	"resizable" : "true",
+	"overflow" : "false",
+	"run" : "true",
+	"modal" : "false",
+	"icon" : "tag-blue.png",
+	"movable" : "true"
+	
+}

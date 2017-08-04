@@ -1,0 +1,24 @@
+{
+	"name" : "demo",
+	"title" : {
+		"text" : "Demonstration"
+	},
+	"buttons" : "close",
+	"body" : {
+		"content" : "Here we can watch interactive presentation of LancetJS features.",
+		"marginLeft" : "6",
+		"marginRigth" : "6",
+		"marginTop" : "8",
+		"align" : "center"
+	},
+	"inputs" : [ 
+		{ "type" : "button", "value" : "Start", "return" : "!timeline demo" }
+	],	
+	"width" : "320", 
+	"height" : "120",
+	"overflow" : "false",
+	"icon" : "tag-blue.png",
+	"launch" : "true",
+	"properties" : "fixed resizable"
+	
+}

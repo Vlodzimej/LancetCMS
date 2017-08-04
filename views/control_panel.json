@@ -1,0 +1,18 @@
+{
+	"name" : "control_panel",
+	"title" : {
+		"text" : "Control Panel"
+	},
+	"buttons" : "close min max",
+	"body" : {
+		"content" : "<span>Добавление нового раздела</span>"
+	},
+	"inputs" : [ 
+		{ "type" : "text", "view_name" : "name", "placeholder" : "View name" }
+	],		
+	"width" : "640", 
+	"height" : "480",
+	"launch" : "true",
+	"icon" : "blueprint tool.png",
+	"properties" : "single freedrag center resizable"
+}

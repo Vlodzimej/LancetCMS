@@ -1,0 +1,88 @@
+<script type="text/javascript">
+
+
+    $(function() {
+
+
+        var view = Lancet.initializeView();
+        var container = view.container;
+        var parent = Lancet.Model.views[view.parentIndex];
+
+        var form = $('<form>', {
+            class : 'center lancet-form-center-inputs'
+        }).appendTo(view.container);
+
+        var inputs = [];
+
+        console.log(inputs);
+
+
+
+        inputs['login'] = $('<\input>', {
+            type: 'text',
+            placeholder: 'Login',
+            size: '20'
+        }).appendTo(form)
+
+        inputs['surname'] = $('<\input>', {
+            type: 'text',
+            placeholder: 'Surname',
+        }).appendTo(form);
+
+        inputs['firstname'] = $('<\input>', {
+            type: 'text',
+            placeholder: 'Firstname',
+        }).appendTo(form);
+
+        inputs['email'] = $('<\input>', {
+            type: 'text',
+            placeholder: 'Email',
+        }).appendTo(form);
+
+         $('<\div>', {
+             height: '8px'
+        }).appendTo(form);
+
+        inputs['password'] = $('<\input>', {
+            type: 'password',
+            placeholder: 'New Password',
+        }).appendTo(form);
+
+        inputs['password_check'] = $('<\input>', {
+            type: 'password',
+            placeholder: 'Reenter Password',
+        }).appendTo(form);
+
+        $('<\div>', {
+            height: '8px'
+        }).appendTo(form);
+
+
+        inputs['submit'] = $('<\input>', {
+            type: 'submit',
+            class: 'lancet-btn',
+            value: 'Reg!'
+        }).appendTo(form)
+
+        inputs['submit'].on('click', function () {
+
+            $.post('index.php/Account/new_account',
+                {
+                    login: form[0][0].value,
+                    surname: form[0][1].value,
+                    firstname: form[0][2].value,
+                    email: form[0][3].value,
+                    password: form[0][4].value,
+                    password_check: form[0][5].value
+                }).done(function (data) {
+                    Lancet.log(data);
+                    Lancet.showMessage('account_'+data);
+                }).fail(function() {
+                    Lancet.showMessage('account_reg_nok');
+            });
+
+
+            return false;
+        });
+    });
+</script>

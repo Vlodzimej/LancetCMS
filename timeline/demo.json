@@ -1,0 +1,40 @@
+{
+	"stamps": [
+    "1:/!image-pos logo_img 800 360",
+	"3:/!text frame1",
+	"4:/!image-pos img1 50 200",
+	"7:/!clear",
+	"9:/!text frame2",
+	"14:/!clear",
+	"15:/!text frame3",
+	"21:/!clear",
+	"22:/!cursor show",
+	"23:/!cursor moveto 470 185",
+	"24:/!view this close",
+	"25:/!text frame4",
+	"28:/!clear",
+	"29:/!cursor moveto 330 115",
+	"30:/!run blank 200 60",
+	"31:/!cursor moveto 380 70",
+	"32:/!cursor move -200 -50 !view this move -200 -50",
+	"33:/!cursor move 105 5",
+	"34:/!view this maximize",
+	"36:/!text frame5",
+	"40:/!clear",
+	"41:/!image-pos img1 50 200",
+	"43:/!image-pos img2 100 205 !text-pos frame6 160 290",
+	"49:/!clear"
+	],
+	"variables" : {
+		"frame1" : "Hello! This is a demonstration</br> of the LancetJS library",
+		"frame2" : "We show you many features of this library.</br>LancetJS can help you to create a desktop-based system</br> with the implementation of the window interface.",
+		"frame3" : "All pages can be opened by using Launchers.</br> It is a component like shortcuts on your desktop.</br>Let`s begin! But first we will close window.",
+		"frame4" : "And now we open information section.",
+		"frame5" : "We can display any picture on screen! Watch...",
+		"frame6" : "It provides a lot of opportunities for creating<br/> various widgets and apps.",
+        "logo_img" : "./images/logo_small.png",
+		"img1" : "./images/db.png",
+		"img2" : "./images/arrow.png"
+
+	}
+}

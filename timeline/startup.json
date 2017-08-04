@@ -1,0 +1,9 @@
+{
+	"stamps": [
+        "1:/",
+        "5:/!image-pos logo_img 800 360"
+	],
+	"variables" : {
+        "logo_img" : "./images/logo_small.png"
+	}
+}

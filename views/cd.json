@@ -1,0 +1,24 @@
+{
+	"title" : {
+		"text" : "External Disks"
+	},
+	"buttons" : "close max min",	
+	"body" : {
+		"content" : "<iframe src='/' height='320px' width='240px'>Ваш обозреватель не поддерживает встроенные рамки или он не настроен на их отображение.</iframe>",
+		"paddingHorizontal" : "12",
+		"paddingVertical" : "8"
+	},
+	"form" : {
+		"action" : "index.html",
+		"method" : "get"
+	},
+	"width" : "350", 
+	"height" : "280",
+	"maximized" : "false",
+	"resizable" : "true",
+	"minHeight" : "320",
+	"minWidth" : "240",
+	"overflow" : "visible",
+	"run" : "true",
+	"icon" : "cd.png"
+}

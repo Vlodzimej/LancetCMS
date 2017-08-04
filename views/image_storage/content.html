@@ -1,0 +1,214 @@
+<script type="text/javascript">
+
+$(function(){
+
+    //var view = Lancet.Model.newView;
+    var view = Lancet.initializeView();
+    var container = view.container;
+
+    view.folderID = 0;
+    view.folderPath = [];
+    view.selectList = [];
+
+    view.keys = [];
+    view.keys.shift = false;
+
+    $('body').on('keyup keydown', function(e){
+        view.keys.shift = e.shiftKey;
+        console.log(view.keys.shift);
+    });
+
+    $('body').keypress(function(e){
+        switch(e.which){
+        //Delete selected image
+            case 13:
+                console.log(view.selectList.length)
+            break;
+            case 127:
+                //Check list of selected elements
+                _.each(view.selectList, function(imageID, index) {
+                    //Get information about curret seleted element
+                    $.get('index.php/main/get_image_info/'+imageID).
+                    then(function(data) {
+                        data = $.parseJSON(data);
+                        //If current folder is Recycle Bin (ID 11) remove file and database entry
+                        if (view.folderID == 11) {
+                            $.post('index.php/main/delete_image/'+imageID)
+                            .then(function(){
+                                //If it is the last itteration update filelist
+                                if(view.selectList.length-1 == index)
+                                    view.updateImageList();
+                            });
+                        //If current folder isn't Recycle Bin and type of element is 1 (file) or 2 (folder)
+                        //Put it to the Recycle Bin
+                        } else if (data.type == 1 || data.type == 2) {
+                            $.post('index.php/main/put_image_recycle/'+imageID)
+                            .then(function(){
+                                //If it is the last itteration update filelist
+                                if(view.selectList.length-1 == index)
+                                    view.updateImageList();
+                            });
+                        } else {
+                            Lancet.showMessage('info_system_folder');
+                        }
+                    });
+                });
+
+            break;
+        }
+    });
+
+    toolbar = $('<\div>', {
+        width : '100%'
+    }).appendTo($(container));
+
+    $('<button>',
+    {
+        text: 'Upload',
+        class: 'lancet-btn'
+
+    }).prependTo($(toolbar)).on('click', function(){
+        Lancet.Controller.execute('!run image_upload '+view.folderID);
+    });
+
+    $('<button>',
+    {
+        text: 'New folder',
+        class: 'lancet-btn'
+
+    }).prependTo($(toolbar)).on('click', function(){
+        Lancet.Controller.execute('!run image_add_folder '+view.folderID);
+    });
+;
+
+    $('<button>',
+    {
+        text: 'Back',
+        class: 'lancet-btn'
+
+    }).prependTo($(toolbar)).on('click', function(){
+        view.selectList = [];
+        //!!!!!!!!
+        view.folderID = view.folderPath[view.folderPath.length-1];
+        delete view.folderPath[view.folderPath.length-1];
+        view.updateImageList();
+    });
+
+    imageList = $('<\div>', {
+        class: 'lancet-imagelist',
+        height: '90%',
+    }).appendTo($(container));
+
+    _.extend(view, {
+        updateImageList: function () {
+
+            $(imageList).empty();
+            var linkImageID = [];
+
+            //Get IDs of linked images
+            $.ajax( {
+                url: 'index.php/main/get_images_link_views',
+                async: false
+            }).
+            then(function(data){
+                //Convert received JSON into unique array
+                var images = $.parseJSON(data);
+                $.each(images, function(index, object) {
+                    linkImageID.push(parseInt(object.icon));
+                });
+                linkImageID = _.uniq(_.compact(linkImageID));
+            });
+
+            $.ajax('index.php/main/get_image_list/'+view.folderID).
+            done(function(data) {
+                var images = $.parseJSON(data);
+                $.each(images, function(index, image) {
+
+                    var container = $('<\div>', {
+                        class: 'lancet-imageslist-container',
+                        imageID: image.ID
+                    /* css: {
+                            background: 'url("'+Lancet.Settings.catalogies.images+'/'+image.filename+'") no-repeat center',
+                        }*/
+                    }).appendTo('.lancet-imagelist');
+
+                    var img = $('<\img>', {
+                        src: '/images/'+image.filename,
+                        imageID: image.ID,
+                        css: {
+                            width: '128px',
+                            height: '128px',
+                            objectFit: 'contain'
+                        }
+                    })
+                    .appendTo(container)
+                    .on('dblclick', function(){
+                        switch(image.type) {
+                            //Show image
+                            case '1':
+                                Lancet.Controller.execute('!run image_preview '+image.ID);
+                                //Alternative method (doesn't correct work with big images)
+                                //Lancet.Controller.execute('!var|'+image.filename+'|imagepreview !image-pos imagepreview '+Lancet.Controller.mouse.X+' '+Lancet.Controller.mouse.Y);
+                                //console.log($(this).attr('imageID'));
+                                break;
+                            case '2':
+                            case '3':
+                            //Open folder
+                                view.selectList = [];
+                                view.folderPath.push(view.folderID);
+                                view.folderID = image.ID;
+                                view.updateImageList();
+                                break;
+                        }
+                    })
+                    .on('click', function(){
+                        if(!view.keys.shift) {
+                            $('.lancet-imageslist-container').removeClass('lancet-imageslist-entry-selected');
+                            view.selectList = [];
+                        }
+                        var unSelect = false;
+                        $.each(view.selectList, function(index, s){
+                            if(s == image.ID) unSelect = true;
+                        });
+
+                        if(unSelect) {
+                            $(container).removeClass('lancet-imageslist-entry-selected');
+                            view.selectList = _.without(view.selectList, image.ID);
+                        } else {
+                            $(container).addClass('lancet-imageslist-entry-selected');
+                            view.selectList.push(image.ID);
+                        }
+                    });
+
+                    var t = $('<\div>',
+                    {
+                        text: image.title,
+                        css: {
+                            marginTop: '8px',
+                            fontSize: '14px',
+                            textAlign: 'center'
+                        }
+                    }).appendTo($(container));
+
+                    Lancet.cutLongString($(t), 15, false);
+
+                    $.each(linkImageID, function(index, ID){
+                        if(image.ID == ID) {
+                            $('<\img>', {
+                                display: 'inline-block',
+                                src: 'assets/lancet/images/link-xxl.png',
+                                width: '12px',
+                                height: '12px',
+                                css: {
+                                    marginRight: '4px'
+                                }
+                            }).prependTo($(t));
+                            //$(container).addClass('lancet-image-link');
+                        }
+                    });
+                });
+            });
+        }
+    });
+    view.updateImageList();
+});

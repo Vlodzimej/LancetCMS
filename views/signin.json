@@ -1,0 +1,28 @@
+{
+	"title" : {
+		"text" : "Signin"
+	},
+	"buttons" : "close min",
+	"body" : {
+		"content" : "<h2>Please, sign in</h2>",
+		"paddingHorizontal" : "4",
+		"paddingVertical" : "4"			
+	},
+	"form" : {
+		"action" : "index.html",
+		"method" : "get"
+	},
+	"inputs" : [ 
+		{ "type" : "text", "placeholder" : "Login", "name" : "name" },
+		{ "type" : "password", "placeholder" : "Password", "name" : "password" },		
+		{ "type" : "submit", "value" : "Send", "return" : "login" },
+		{ "type" : "button", "value" : "Close", "return" : "close this" }
+	],
+	"width" : "190", 
+	"height" : "190",
+	"minHeight" : "100",
+	"minWidth" : "100",
+	"overflow" : "hidden",
+	"run" : "true",
+	"icon" : "pencil.png"
+}

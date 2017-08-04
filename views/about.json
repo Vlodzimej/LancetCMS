@@ -1,0 +1,15 @@
+{
+	"title" : {
+		"text" : "Information"
+	},
+	"buttons" : "close",
+	"body" : {
+		"content" : "<p style = 'font-size: 24px; font-weight: bold; '>LancetJS</p><hr /><p>Alpha version 0.5 - 1.10.2016</p><p>Education Project</p><p>&#169; 2016 Vladimir Amelkin</p>",
+		"marginTop" : "5",
+		"marginBottom" : "8"			
+	},
+	"width" : "290", 
+	"height" : "150",
+	"launch" : "true",
+	"properties" : "freedrag center modal"
+}
