@@ -1,64 +1,272 @@
-body { background-color: #000000; overflow-x: hidden; overflow-y: auto; }
-.lancet-noselect, .lancet-desktop, .lancet-view, .lancet-launcher { -webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none; user-select: none;}
-.lancet-pad { -webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none; user-select: none;}
-.lancet-desktop { background-color: #ffffe0; display: block; overflow-x: hidden; overflow-y: auto; background: no-repeat; background-size: cover; text-align: center; min-width: 310px;}
-
-.lancet-pad { display: block; overflow-x: auto; overflow-y: auto; margin: 4px; display: block; position: static; border-radius: 4px; }
-.lancet-pad-title { background-color: rgba(255,255,224, 0.65); margin: 4px; padding-left: 4px; clear: both; border: 1px solid #cccccc; border-radius: 4px;-moz-border-radius: 4px; cursor: pointer; }
-.lancet-pad-title:hover { border-color: #999999; }
-
-.lancet-header { font-size: 20px; font-weight: bold; margin: 2px; padding: 2px 4px 2px 4px; text-align: center; }
-.lancet-toolbar { margin: 2px; padding: 4px; display: block; overflow-x: auto; overflow-y: auto; }
-.lancet-tray { margin: 2px; padding: 4px; display: block; overflow-x: auto; overflow-y: auto; }
-
-.lancet-view { background-color: #ffffe0; border-radius: 6px; display: none; border: solid 1px black; position: absolute; cursor: default; z-index: 0; box-shadow: 0 0 10px rgba(100, 100, 100, 5); overflow: hidden; margin: 4px; }
-.lancet-view .title { margin: 0; border-radius: 6px 6px 0 0;  cursor: default; background: #6699FF; color: white; font-weight: bold; font-size: 14px; padding: 4px; border-style: solid; border-width: 1px; text-shadow: black 0 0 2px; height: 20px; overflow: hidden; }
-.lancet-view-body { }
-.lancet-view-body p { padding: 0px; }
-
-.lancet-view .title span {float: left; }
-.lancet-view .title [class*='button'] { width: 18px; height: 18px; overflow: hidden; cursor: pointer; float: right; background-color: rgb(255, 150, 150); border: 1px solid black; border-radius: 6px; -moz-border-radius: 6px; font-family: Arial; font-size: 14px; font-weight: bold; color: #eeeeee; box-shadow: 0px 0px 1px; text-align: center; margin-left: 2px; }
-
-.lancet-view-container { width: 100%; height: 100%; }
-
-.lancet-launcher { position: relative; cursor: pointer; border: 1px solid #cccccc; float: left; display: block; border-radius: 6px; -moz-border-radius: 6px; background-color: rgba(255,255,224, 0.65); }
-.lancet-launcher:hover { border: 1px solid #555555; box-shadow: 0 0 4px rgba(100, 100, 100, 5); }
-.lancet-launcher:last-of-type:after { clear: both; }
-
-.lancet-panel { text-align: center; background-color: #ffffe0; border-radius: 6px; display: none; border: solid 1px black; cursor: default; z-index: 0; box-shadow: 0 0 10px rgba(100, 100, 100, 5); overflow: hidden; margin: 0.3em 0.15em; padding: 10px; }
-.lancet-panel-body { border: 0; margin: 0.3em 0.15em; padding: 0; display: inline-block; }
-
-.lancet-image { text-align: center; display: none; margin: 0.3em 0.15em; padding: 0; }
-.lancet-image-body { margin: 0.3em 0.15em; padding: 0; display: inline-block; }
-
-.lancet-cursor { position: fixed; width: 32px; height: 32px; background: url('./images/cowlm_arrow.cur') no-repeat center; z-index: 65535; }
-.lancet-icon { position: relative; }
-
-.lancet-console { padding: 0; margin: 0; width: 100%; height: 100%; background-color: #000000; color: #cccccc; resize: none; }
-
-.lancet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('./images/overlay.png'); opacity: 0.75; z-index: 65534; }
-
-.lancet-logo { }
-
+body {
+  background-color: #000000;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.lancet-noselect,
+.lancet-desktop,
+.lancet-view,
+.lancet-launcher {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.lancet-pad {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.lancet-desktop {
+  background-color: #ffffe0;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: no-repeat;
+  background-size: cover;
+  text-align: center;
+  min-width: 310px;
+}
+.lancet-pad {
+  overflow-x: auto;
+  overflow-y: auto;
+  margin: 4px;
+  display: block;
+  position: static;
+  border-radius: 4px;
+}
+.lancet-pad-title {
+  background-color: rgba(255, 255, 224, 0.65);
+  margin: 4px;
+  padding-left: 4px;
+  clear: both;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  cursor: pointer;
+}
+.lancet-pad-title:hover {
+  border-color: #999999;
+}
+.lancet-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 2px;
+  padding: 2px 4px 2px 4px;
+  text-align: center;
+}
+.lancet-toolbar {
+  margin: 2px;
+  padding: 4px;
+  display: block;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.lancet-tray {
+  margin: 2px;
+  padding: 4px;
+  display: block;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.lancet-view {
+  background-color: #ffffe0;
+  border-radius: 6px;
+  display: none;
+  border: solid 1px black;
+  position: absolute;
+  cursor: default;
+  z-index: 0;
+  box-shadow: 0 0 10px #646464;
+  overflow: hidden;
+  margin: 4px;
+}
+.lancet-view .title {
+  margin: 0;
+  border-radius: 6px 6px 0 0;
+  cursor: default;
+  background: #6699FF;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px;
+  border-style: solid;
+  border-width: 1px;
+  text-shadow: black 0 0 2px;
+  height: 20px;
+  overflow: hidden;
+}
+.lancet-view-body p {
+  padding: 0px;
+}
+.lancet-view .title span {
+  float: left;
+}
+.lancet-view .title [class*='button'] {
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  float: right;
+  background-color: #ff9696;
+  border: 1px solid black;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+  color: #eeeeee;
+  box-shadow: 0px 0px 1px;
+  text-align: center;
+  margin-left: 2px;
+}
+.lancet-view-container {
+  width: 100%;
+  height: 100%;
+}
+.lancet-launcher {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #cccccc;
+  float: left;
+  display: block;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  background-color: rgba(255, 255, 224, 0.65);
+}
+.lancet-launcher:hover {
+  border: 1px solid #555555;
+  box-shadow: 0 0 4px #646464;
+}
+.lancet-launcher:last-of-type:after {
+  clear: both;
+}
+.lancet-panel {
+  text-align: center;
+  background-color: #ffffe0;
+  border-radius: 6px;
+  display: none;
+  border: solid 1px black;
+  cursor: default;
+  z-index: 0;
+  box-shadow: 0 0 10px #646464;
+  overflow: hidden;
+  margin: 0.3em 0.15em;
+  padding: 10px;
+}
+.lancet-panel-body {
+  border: 0;
+  margin: 0.3em 0.15em;
+  padding: 0;
+  display: inline-block;
+}
+.lancet-image {
+  text-align: center;
+  display: none;
+  margin: 0.3em 0.15em;
+  padding: 0;
+}
+.lancet-image-body {
+  margin: 0.3em 0.15em;
+  padding: 0;
+  display: inline-block;
+}
+.lancet-cursor {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  background: url('images/cowlm_arrow.cur') no-repeat center;
+  z-index: 65535;
+}
+.lancet-icon {
+  position: relative;
+}
+.lancet-console {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  color: #cccccc;
+  resize: none;
+}
+.lancet-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('images/overlay.png');
+  opacity: 0.75;
+  z-index: 65534;
+}
 /*.button{ border: solid; border-width: 1px; background: white; cursor: pointer; padding: 2px 4px 2px 4px; margin: 2px 2px 2px 0px; }*/
-
 /*.lancet-input-button { padding: 2px 16px 2px 16px; margin: 10px 6px 6px 6px; border: 1px solid #aaaaaa; border-radius: 4px; box-shadow: 1px 1px 1px; background: #ffffe0; cursor: pointer; }*/
 /*.lancet-input-text { padding: 2px; margin: 8px; border-radius: 4px; background: #ffffe0; }*/
-.lancet-console { width: 100%; height: 100%; border: none; }
-
-.lancet-btn { padding: 2px 4px 2px 4px; margin: 1px 1px 1px 1px; border: 1px solid #6699FF; border-radius: 4px; cursor: pointer; background-color: rgba(255,255,255, 0); color: #6699FF; }
-.lancet-btn:hover { border-color: rgb(201, 219, 255); }
-.lancet-btn:disabled { border-color: rgb(200,200,200); color: rgb(200,200,200); }
-
-input[type='checkbox'] { display: none; }
-input[type='checkbox'] + label { color: #444; cursor: pointer; }
-input[type='checkbox'] + label::before { content: ''; display: inline-block; height: 18px; width: 18px; margin: 0 5px 0 0; background-image: url('./images/checkbox.png'); background-repeat: no-repeat; }
-input[type='checkbox'] + label::before { background-position: 0px 0px; }
-input[type='checkbox']:checked + label::before { background-position: -18px 0px; }
-input[type='checkbox']:disabled + label::before { background-position: -36px 0px; }
-input[type='checkbox']:checked:disabled + label::before { background-position: -54px 0px; }
-input[type='text'] { border-radius: 4px; border: 1px solid #6699FF; }
-input[type='password'] { border-radius: 4px; border: 1px solid #6699FF; }
+.lancet-console {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.lancet-btn {
+  padding: 2px 4px 2px 4px;
+  margin: 1px 1px 1px 1px;
+  border: 1px solid #6699FF;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0);
+  color: #6699FF;
+}
+.lancet-btn:hover {
+  border-color: #c9dbff;
+}
+.lancet-btn:disabled {
+  border-color: #c8c8c8;
+  color: #c8c8c8;
+}
+input[type='checkbox'] {
+  display: none;
+}
+input[type='checkbox'] + label {
+  color: #444;
+  cursor: pointer;
+}
+input[type='checkbox'] + label::before {
+  content: '';
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  margin: 0 5px 0 0;
+  background-image: url('images/checkbox.png');
+  background-repeat: no-repeat;
+}
+input[type='checkbox'] + label::before {
+  background-position: 0px 0px;
+}
+input[type='checkbox']:checked + label::before {
+  background-position: -18px 0px;
+}
+input[type='checkbox']:disabled + label::before {
+  background-position: -36px 0px;
+}
+input[type='checkbox']:checked:disabled + label::before {
+  background-position: -54px 0px;
+}
+input[type='text'] {
+  border-radius: 4px;
+  border: 1px solid #6699FF;
+}
+input[type='password'] {
+  border-radius: 4px;
+  border: 1px solid #6699FF;
+}
 /*
 .lancet-text-center { align: center; }
 .lancet-text-right { align: right; }
@@ -67,48 +275,150 @@ input[type='password'] { border-radius: 4px; border: 1px solid #6699FF; }
 .lancet-to-left { right: auto; left: 0; }
 .lancet-to-right { right: 0; left: auto; }
 */
-.lancet-input-string div { text-align: center; }
-.lancet-input-string input[type='text'] { width: 100%; text-align: center; }
-
-.lancet-list { overflow-x: hidden; overflow-y: auto; margin: 0; padding: 0; }
-.lancet-list-item { margin: 0; padding-top: 4px; padding-bottom: 4px; cursor: pointer; line-height: 0.5em; overflow: hidden; }
-.lancet-list-item:hover { cursor: pointer; background-color: rgba(200,230,255, 0.5); color: black; }
-.lancet-list-item-selected { background-color: #6699FF; color: white; }
-.lancet-list-item-selected:hover { background-color: #6699FF; color: white; }
-
-.lancet-list-head { width: 100%; display: table; }
-.lancet-list-head-item { float: left; display: table-cell; font-weight: bold; }
-
-.lancet-block-list { overflow: auto; }
-.lancet-block { width: 64px; height: 64px; background-color: rgba(0,0,0,0.05); border-radius: 4px; margin: 4px; display: inline-block; text-align: center; font-size: 12px; box-shadow: 0 0 5px rgba(100, 100, 100, 5); border: 1px solid black; cursor: pointer; }
-.lancet-block { vertical-align: center; }
-.lancet-block:hover { border: 1px solid white; }
-
-.lancet-upload-image-icon { width: 200px; height: 200px; text-align: center; border: 1px dashed lightgrey; background-color: #ffffff; border-radius: 4px; margin: auto; text-align: center; display: flex; align-items: center; justify-content: center; overflow: auto; }
-.lancet-upload-image-icon:hover { border: 1px solid lightgrey; }
-
-.ace-editor { font-family: monospace !important; }
-.ace-editor div { font: inherit !important; padding: 0; margin: 0; text-indent: 0.1px; }
-
-.lancet-image-link { background-color: rgb(200,250,200); background-size: cover; }
-.lancet-image-link:hover { background-color: rgb(230,255,230); background-size: cover; }
-
-.lancet-timeline-controller { top: 16px; left: 16px; width: 190px; height: 70px; background-color: rgba(0,0,0,0.15); position: absolute; border-radius: 6px; opacity: 0; visiblity: hidden; transition: opacity 0.3s, visiblity 0s linear 0.3s; }
-.lancet-timeline-controller:hover { opacity: 1; visibility: visible; transition-delay: 0s;  }
-
-
-.lancet-timeline-button { width: 48px; height: 48px; display: inline-block; border: 1px solid lightgrey; border-radius: 4px; position: relative; margin: 10px 4px 8px 4px; }
-.lancet-timeline-button:hover { border-color: white; cursor: pointer; }
-
-.lancet-timeline-button.play {  background: url('./images/play.png') no-repeat center; }
-.lancet-timeline-button.pause {  background: url('./images/pause.png') no-repeat center; }
-.lancet-timeline-button.stop {  background: url('./images/stop.png') no-repeat center; }
-
-form * { margin: 4px; }
-
-.lancet-form-center-inputs * { text-align: center; }
-
-.center { text-align: center; }
-
+.lancet-input-string div {
+  text-align: center;
+}
+.lancet-input-string input[type='text'] {
+  width: 100%;
+  text-align: center;
+}
+.lancet-list {
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+.lancet-list-item {
+  margin: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  cursor: pointer;
+  line-height: 0.5em;
+  overflow: hidden;
+}
+.lancet-list-item:hover {
+  cursor: pointer;
+  background-color: rgba(200, 230, 255, 0.5);
+  color: black;
+}
+.lancet-list-item-selected {
+  background-color: #6699FF;
+  color: white;
+}
+.lancet-list-item-selected:hover {
+  background-color: #6699FF;
+  color: white;
+}
+.lancet-list-head {
+  width: 100%;
+  display: table;
+}
+.lancet-list-head-item {
+  float: left;
+  display: table-cell;
+  font-weight: bold;
+}
+.lancet-block-list {
+  overflow: auto;
+}
+.lancet-block {
+  width: 64px;
+  height: 64px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin: 4px;
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+  box-shadow: 0 0 5px #646464;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.lancet-block {
+  vertical-align: center;
+}
+.lancet-block:hover {
+  border: 1px solid white;
+}
+.lancet-upload-image-icon {
+  width: 200px;
+  height: 200px;
+  border: 1px dashed lightgrey;
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+.lancet-upload-image-icon:hover {
+  border: 1px solid lightgrey;
+}
+.ace-editor {
+  font-family: monospace !important;
+}
+.ace-editor div {
+  font: inherit !important;
+  padding: 0;
+  margin: 0;
+  text-indent: 0.1px;
+}
+.lancet-image-link {
+  background-color: #c8fac8;
+  background-size: cover;
+}
+.lancet-image-link:hover {
+  background-color: #e6ffe6;
+  background-size: cover;
+}
+.lancet-timeline-controller {
+  top: 16px;
+  left: 16px;
+  width: 190px;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.15);
+  position: absolute;
+  border-radius: 6px;
+  opacity: 0;
+  visiblity: hidden;
+  transition: opacity 0.3s, visiblity 0s linear 0.3s;
+}
+.lancet-timeline-controller:hover {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.lancet-timeline-button {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  position: relative;
+  margin: 10px 4px 8px 4px;
+}
+.lancet-timeline-button:hover {
+  border-color: white;
+  cursor: pointer;
+}
+.lancet-timeline-button.play {
+  background: url('images/play.png') no-repeat center;
+}
+.lancet-timeline-button.pause {
+  background: url('images/pause.png') no-repeat center;
+}
+.lancet-timeline-button.stop {
+  background: url('images/stop.png') no-repeat center;
+}
+form * {
+  margin: 4px;
+}
+.lancet-form-center-inputs * {
+  text-align: center;
+}
+.center {
+  text-align: center;
+}
 /*background: url('./images/link-xxl.png') no-repear cover; position: relative; }*/
-
