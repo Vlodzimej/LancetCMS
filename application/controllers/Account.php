@@ -59,7 +59,8 @@ class Account extends CI_Controller
                 'surname' => $surname,
                 'password' => $hash_password,
                 'email' => $email,
-                'status' => 0  //Временные параметр - новый пользователь будет уже активирован. Если 0 - то требуется подтверждение по email
+                'access_level' => 1,
+                'status' => 2  //Временные параметр - новый пользователь будет уже активирован. Если 0 - то требуется подтверждение по email
             );
 
             echo 'reg_ok';
@@ -98,9 +99,8 @@ class Account extends CI_Controller
                     case '2':   //Статус: активирован
 
                         $data = array(
-                            'user_ID' => $account['ID'],
-                            'user_login' => $account['login'],
-                            'user_type' => $account['type'],
+                            'account_ID' => $account['ID'],
+                            'account_access_level' => $account['access_level'],
                             'logged_in' => TRUE
                         );
 
@@ -132,7 +132,6 @@ class Account extends CI_Controller
         } else {
             echo 1;
         }
-
     }
 
     function current_account()

@@ -65,13 +65,15 @@ class Account_model extends CI_Model {
 
     function get_current_account()
     {
-        $user_ID = $this->session->userdata('user_ID');
-        $result = $this->get_account_by_id($user_ID);
-        $result['password'] = '';
+        $account_ID = $this->session->userdata('account_ID');
+        $result = $this->get_account_by_id($account_ID);
+        //Remove Password variable
+        unset($result['password']);
+        
         return $result;
     }
 
-    function get_user_by_email($email)
+    function get_account_by_email($email)
     {
         $query = $this->db->get_where('users', array('email' => $email));
         return $query->row_array();

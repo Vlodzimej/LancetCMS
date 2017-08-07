@@ -457,6 +457,9 @@
 				variables: []
 			},
 		},
+        Account: {
+		    access_level: 0
+        },
 
 		Model: {
 			centerX: 0,				//Центральная координата рабочей области по горизонтали
@@ -766,10 +769,13 @@
 					if(data) {
 						data = $.parseJSON(data);
 
-						if(typeof data.inputs !== 'undefined' && data.inputs)
-							data.inputs = $.parseJSON(data.inputs);
-
-						_view = new Lancet.View(data, coords, value);
+                        if(data.access_level <= Lancet.Account.access_level) {
+						    if(typeof data.inputs !== 'undefined' && data.inputs)
+    							data.inputs = $.parseJSON(data.inputs);
+    						_view = new Lancet.View(data, coords, value);
+                        } else {
+                            Lancet.showMessage('error_access_denied');
+                        }
 
 					} else {
 						Lancet.showMessage('error_loading_from_database');
@@ -1404,8 +1410,8 @@
 					.done(function(data)
 					{
 						var launcherList = $.parseJSON(data);
-						$.each(launcherList, function(i, item)
-						{
+						_.each(launcherList, function(item, i)
+                        {
 							$.ajax('index.php/main/get_launcher_data/'+item.name)
 							.done(function(data){
 								var launcherData = $.parseJSON(data);
