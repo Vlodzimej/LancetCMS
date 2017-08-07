@@ -75,8 +75,11 @@
                     password: form[0][4].value,
                     password_check: form[0][5].value
                 }).done(function (data) {
-                    Lancet.log(data);
+                    Lancet.log('Status of new account create process: '+data);
                     Lancet.showMessage('account_'+data);
+                    if(data == 'reg_ok') {
+                        view.destroy();
+                    }
                 }).fail(function() {
                     Lancet.showMessage('account_reg_nok');
             });

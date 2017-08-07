@@ -1,0 +1,31 @@
+<style>
+    #profile-info-panel {
+        padding: 4px;
+        background: #fefefe;
+        border: outset 1px grey;
+    }
+</style>
+<button class="lancet-btn" id="profile-btn-signout">Sign out</button>
+
+<div id="profile-info-panel">
+
+</div>
+
+<script>
+    $infoPanel = $('#profile-info-panel');
+
+    $('#profile-btn-signout').on('click', function(){
+        $.ajax('index.php/account/signout').done(function(){
+            location.reload();
+        });
+
+    });
+
+    var content = '';
+    _.forEach(Lancet.Account, function(entry, i){
+        content += (i+': '+entry+'<br>');
+    });
+
+    $infoPanel.html(content);
+
+</script>

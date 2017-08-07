@@ -7,14 +7,14 @@ class Account_model extends CI_Model {
         $this->load->database();
     }
 
-    function check_login($login)
+    function find_login($login)
 	{
 		$query = $this->db->get_where('accounts', array('login' => $login));
-		if($query->num_rows())
+		if($query->num_rows() > 0)
 			return true;
 	}
 
- 	function check_password($email, $password)
+ 	function check_login_password($email, $password)
 	{
 		$password = md5($password);
 		$query = $this->db->get_where('accounts', array('email' => $email, 'password' => $password));
@@ -22,7 +22,16 @@ class Account_model extends CI_Model {
 			return true;
 	}
 
-	function check_email($email)
+
+ 	function check_email_password($email, $password)
+	{
+		$password = md5($password);
+		$query = $this->db->get_where('accounts', array('email' => $email, 'password' => $password));
+		if($query->num_rows())
+			return true;
+	}
+
+	function find_email($email)
 	{
 		$query = $this->db->get_where('accounts', array('email' => $email));
 		if($query->num_rows())
@@ -34,18 +43,32 @@ class Account_model extends CI_Model {
 		$this->db->insert('accounts', $data);
 		return $this->db->insert_id();
 	}
-
-    function get_user($email, $password)
+    function get_account_by_login($login, $password)
+    {
+        $password = md5($password);
+        $query = $this->db->get_where('accounts', array('login' => $login, 'password' => $password));
+        return $query->row_array();
+    }
+/*
+    function get_account($email, $password)
     {
         $password = md5($password);
         $query = $this->db->get_where('users', array('email' => $email, 'password' => $password));
         return $query->row_array();
     }
-
-    function get_user_by_id($ID)
+*/
+    function get_account_by_id($ID)
     {
-        $query = $this->db->get_where('users', array('ID' => $ID));
+        $query = $this->db->get_where('accounts', array('ID' => $ID));
         return $query->row_array();
+    }
+
+    function get_current_account()
+    {
+        $user_ID = $this->session->userdata('user_ID');
+        $result = $this->get_account_by_id($user_ID);
+        $result['password'] = '';
+        return $result;
     }
 
     function get_user_by_email($email)
@@ -77,18 +100,6 @@ class Account_model extends CI_Model {
     	$this->db->where('ID', $data['ID']);
     	$result = $this->db->update('users');
     	return $result;
-    }
-    //Увеличение кол-ва баллов
-    function increase_user_score($entryID, $score)
-    {
-        $this->db->select('userID');
-        $this->db->where('ID', $entryID);
-        $query = $this->db->get('entries');
-        $entry = $query->row_array();
-
-        $this->db->set('score', 'score+'.$score, FALSE);
-        $this->db->where('ID', $entry['userID']);
-        $this->db->update('users');
     }
 
     function change_user_status($userID, $status)

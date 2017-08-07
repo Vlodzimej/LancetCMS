@@ -38,3 +38,11 @@ $lang['account_password_empty']         = '<br>Password is empty.<br><br>';
 $lang['account_password_wrong']         = 'Password is wrong. Please reenter correct password two times.<br>';
 $lang['account_reg_ok']                 = 'Congratuations!<br>Registation has been done!<br><br>';
 $lang['account_reg_nok']                = '<br>Registation was failed<br>';
+
+$lang['account_not_confirmed']          = '<br>Account is not confirmed.<br><br>';
+$lang['account_blocked']                = '<br>Account is blocked.<br><br>';
+$lang['account_signin_ok']              = '<br>Your are sign in!<br><br>';
+$lang['account_wrong_password']         = '<br>Wrong password!<br><br>';
+$lang['account_not_found']              = "<br>Account doesn't exist.<br><br>";
+
+$lang['profile_no_user']                = 'This page available only for authorizated users.';

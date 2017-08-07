@@ -88,12 +88,21 @@ class Main extends CI_Controller {
 		echo $this->lang->line($message_key);
 	}
 	//------------------------------------------------------------------------------------
-	//Get text message from lang/'language'_lang.php
+	//Get text message from language/'language'_lang.php
 	//------------------------------------------------------------------------------------
 	public function get_message($key)
 	{
 		//$idiom = $this->session->get_userdata('language');
 		$this->lang->load('messages_lang', 'english');
+		echo $this->lang->line($key);
+	}
+	//------------------------------------------------------------------------------------
+	//Get text string from language/'language'/strings_lang.php
+	//------------------------------------------------------------------------------------
+	public function get_string($key)
+	{
+		//$idiom = $this->session->get_userdata('language');
+		$this->lang->load('strings_lang', 'english');
 		echo $this->lang->line($key);
 	}
 	//------------------------------------------------------------------------------------

@@ -1,0 +1,32 @@
+<div style="margin: auto; padding-top: 175px; width: 200px; text-align: center;">
+    <div id="profile-message"></div>
+    <button class="lancet-btn" id="btn_signin">Sign in</button>
+    <button class="lancet-btn" id="btn_reg">Registration</button>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function()
+    {
+        var message = Lancet.getMessage('profile_no_user');
+        var btnSigninCaption = Lancet.getString('btn_signin');
+        var btnRegCaption = Lancet.getString('btn_reg');
+
+        $profileMessage = $('#profile-message');
+        $btnSignIn = $('#btn_signin');
+        $btnReg = $('#btn_reg');
+
+        $profileMessage.text(message);
+        $btnSignIn.text(btnSigninCaption);
+        $btnReg .text(btnRegCaption);
+
+        $btnSignIn.on('click', function(){
+            Lancet.Controller.execute('!run account_signin');
+        });
+        $btnReg .on('click', function(){
+            Lancet.Controller.execute('!run account_new');
+        })
+    });
+
+</script>

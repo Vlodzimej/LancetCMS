@@ -321,6 +321,38 @@
 				alert('AJAX: Error calling CI function for loading text string');
 			});
 		},
+        //Return text of message by key
+        //The string load from CI: lang/error_messages_lang.php
+        //----------------------------------------------------------------------------
+        getMessage: function(_key){
+
+		    var result;
+            $.ajax('index.php/main/get_message/'+_key, {
+                async: false
+            })
+                .done(function(data)
+                {
+                    result = data;
+                })
+                .fail(function(){
+                    alert('AJAX: Error calling CI function for loading text string');
+                });
+            return result;
+        },
+        getString: function(_key){
+            var result;
+            $.ajax('index.php/main/get_string/'+_key, {
+                async: false
+            })
+                .done(function(data)
+                {
+                    result = data;
+                })
+                .fail(function(){
+                    alert('AJAX: Error calling CI function for loading text string');
+                });
+            return result;
+        },
 		//----------------------------------------------------------------------------
 		initializeJSON: function(_filename){
 			$.getJSON(_filename).done(function(data) {
@@ -734,7 +766,7 @@
 					if(data) {
 						data = $.parseJSON(data);
 
-						if(typeof data.inputs != 'undefined' && data.inputs)
+						if(typeof data.inputs !== 'undefined' && data.inputs)
 							data.inputs = $.parseJSON(data.inputs);
 
 						_view = new Lancet.View(data, coords, value);
@@ -751,14 +783,31 @@
 			if(_settings.debugMode) console.log(str);
 		},
 		str2bool: function(value) {
-			if(value == "true")
+			if(value === "true")
 				return true;
 			else
 				return false;
+
 		}
 	};
 	//Functions for View object---------------------------------------------------------------------------------
 	_.extend(Lancet.View.prototype, {
+
+        loadContent: function(filename){
+            var _view = this;
+            $.post('index.php/main/load_content/', { 'filename' : filename })
+                .done(function(data){
+                    if(data === null || data == '' || !data || typeof data == 'undefined'){
+                        Lancet.showMessage('error_loading_content_file');
+                    } else {
+                        _view.container.html(data);
+                    }
+                })
+                .fail(function(){
+                    Lancet.showMessage('error_loading_content_file');
+                });
+        },
+
         setTitle: function(value){
             _view.title.text = value;
             $(_view.unitHeadText).text = _view.title.text;
@@ -1396,6 +1445,20 @@
 			debugText += "Workspace: "+_settings.workspace+"\n";
 			debugText += "Fullscreen: "+_desktop.fullscreen+"\n";
 			Lancet.log(debugText);
+
+			$.ajax('index.php/account/check_logged_in').
+                done(function(result) {
+                    if(result === '1') {
+                        Lancet.log('Logged_in: true');
+                        $.ajax('index.php/account/current_account').
+                            done(function(result){
+                                Lancet.Account = $.parseJSON(result);
+                                Lancet.Controller.execute('!var|<br>Hello, '+Lancet.Account.login+'!<br><br>|hello !alert hello')
+                        });
+                    } else {
+                        Lancet.log('Logged_in: false');
+                    }
+            });
 		},
 		createTray: function () {
 			var l = this.tray;
