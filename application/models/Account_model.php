@@ -69,7 +69,7 @@ class Account_model extends CI_Model {
         $result = $this->get_account_by_id($account_ID);
         //Remove Password variable
         unset($result['password']);
-        
+
         return $result;
     }
 
