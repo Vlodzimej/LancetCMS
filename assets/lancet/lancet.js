@@ -1840,6 +1840,20 @@
 				_controller.execute(value);
 			});
 		},
+        query: function(queryString){
+		    var data;
+            Lancet.log('SQL query: '+queryString);
+            $.ajax( {
+                url: 'index.php/Database/query',
+                type: 'POST',
+                async: false,
+                data : { query : queryString }
+            }).done(function(result){
+                Lancet.log('SQL result: '+result);
+                data = $.parseJSON(result);
+            });
+            return data;
+        },
 		execute: function(str, _view) {
             var r;
 			//This function need to refactoring
@@ -1860,6 +1874,11 @@
 			var command;
 			$.each(str, function(i, value) {
 				switch(value){
+                    case '!query':
+                        var queryString = _console.variables[str[i+1]];
+                        var q = Lancet.Controller.query(queryString);
+                        console.log(q);
+                        break;
 					case '!header':
 						if(str[i+2] !== 'body') str[i+2] = '.'+str[i+2];
 						$('<div/>', { class: _classes.header, } ).prependTo(str[i+2]).text(_settings.title);
@@ -1870,7 +1889,7 @@
                         $('html head').find('title').text(_console.variables[str[i+1]]);
                         break;
                     case '!logo':
-                        console.log('/'+_catalogies.images+'/'+str[i+1]);
+                        Lancet.log('/'+_catalogies.images+'/'+str[i+1]);
                         if(str[i+4] !== 'body') str[i+4] = '.'+str[i+4];
                         $('<img/>', { id: _classes.logo, src: '/'+_catalogies.images+'/'+str[i+1], css: { margin: '* auto', width: str[i+2], height: str[i+3] }} ).prependTo(str[i+4]);
                         break;
@@ -2279,7 +2298,7 @@
 				var lines = text.split(/\r?\n/);
 				//Execute the last string - it is a user entered the command
 				_controller.execute(lines[lines.length-2]);
-				console.log(lines[lines.length-2]);
+				//console.log(lines[lines.length-2]);
 			}
 		},
 		write: function(string)
