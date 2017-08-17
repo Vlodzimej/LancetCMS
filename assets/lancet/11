@@ -1,0 +1,235 @@
+var view = Lancet.initializeView();
+var container = view.container;
+var parent = Lancet.Model.views[view.parentIndex];
+var unitID;
+var unitData;
+var questionIndex = 0;
+var questionData = {};
+var total;
+var processID;
+var answerInputs;
+$.get('index.php/test/all').done(function(result){
+    var data = $.parseJSON(result);
+    var content = Lancet.templateParse('test_main', { units : data });
+
+    container.html(content);
+
+    $('#lancet-test-btn-start').on('click', function(){
+        unitID = $('#lancet-test-unit-select').val();
+        $.ajax({
+            url : 'index.php/test/unit/'+unitID,
+            async : false,
+        }).done(function(result) {
+            unitData = $.parseJSON(result);
+            total = unitData.questions.length;
+            showQuestion();
+
+            $.ajax({
+                url : 'index.php/test/start',
+                type : 'POST',
+                async : false,
+                data : {
+                    unitID : unitData.unit.ID,
+                    accountID : Lancet.Account.ID
+                }
+            }).done(function(result){
+                processID = result;
+            });
+        });
+    });
+});
+
+function showQuestion()
+{
+    var templateName;
+    questionData = unitData.questions[questionIndex];
+
+    questionData['current'] = questionIndex+1;
+    questionData['total'] = total;
+
+    //Body with answers
+    switch(questionData['type'])
+    {
+        case '1': templateName = 'test_type_single'; break;
+        case '2': templateName = 'test_type_multiple'; break;
+        case '3': templateName = 'test_type_strings'; break;
+    }
+
+    var renderedAnswers = Lancet.templateParse(templateName, questionData);
+
+    questionData['renderedAnswers'] = renderedAnswers;
+
+    var content = Lancet.templateParse('test_question', questionData);
+
+    container.html(content);
+
+    buttonControl();
+
+    answerInputs = $("form[name='lancet-test-question-form']")[0];
+        _.each(answerInputs, function(answer, index){
+        console.log(questionData.answers[index].action);
+        answer.checked = questionData.answers[index].action;
+    });
+}
+
+function buttonControl()
+{
+    $('#lancet-test-btn-prev').on('click', function(){
+        prevQuestion();
+    });
+    $('#lancet-test-btn-next').on('click', function(){
+        nextQuestion();
+    });
+    $('#lancet-test-btn-finish').on('click', function(){
+        Lancet.Controller.execute('!var|Do you want to fishin current test?|test-finish !confirm test-finish !run about');
+        //finish();
+    });
+    $("form[name='lancet-test-question-form']").find('input').
+    on('click', function() {
+        fixAnswer();
+    }).
+    on('keyup', function() {
+        fixAnswer();
+    });
+
+}
+
+function prevQuestion()
+{
+    if(questionIndex > 0) {
+        questionIndex--;
+        showQuestion();
+    }
+}
+
+function nextQuestion()
+{
+    if(questionIndex < total-1) {
+        questionIndex++;
+        showQuestion();
+    }
+}
+
+function fixAnswer()
+{
+
+    switch(questionData['type'])
+    {
+        case '1':
+        case '2':
+            _.each(answerInputs, function(answer, index){
+                questionData.answers[index].action = answer.checked;
+            });
+        break;
+
+        case '3':
+            _.each(answerInputs, function(answer, index){
+                questionData.answers[index].action = answer.value;
+            });
+        break;
+    }
+}
+
+function finish()
+{
+    var actions = [];
+    _.each(unitData.questions, function(question, index){
+        _.each(question.answers, function(answer, index){
+            delete answer['content'];
+            answer['process_ID'] = processID;
+            answer['answer_ID'] = answer['ID'];
+            answer['value'] = answer['action'];
+            delete answer['ID'];
+            delete answer['action'];
+
+            if(answer['value'])
+                actions.push(answer);
+        });
+    });
+    console.log(actions);
+    $.post('index.php/Test/finish/'+processID, {
+        actions : actions
+    }).done(function(result){
+        if(result == 1)
+        {
+            view.destroy();
+        }
+    });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        _.each(data.questions, function(question, index){
+
+            var filename;
+
+            count++;
+
+            question.count = count;
+
+            //Generate a file name with a template of question header
+            if(question.completed)
+                filename = 'test_question_completed';
+            else
+                filename = 'test_question_uncompleted';
+
+            //Get question header from template
+            questionsContent += Lancet.templateParse(filename, question);
+
+
+            questionsContent += '<div class="col-sm-6">';
+
+            _.each(question.actions, function(action, index)
+            {
+
+                if(question.type == 1 || question.type == 2) {
+                    if (action.correct == '1')
+                        filename = 'test_answer_correct';
+                    else
+                        filename = 'test_answer_incorrect';
+                }
+
+                if(question.type == 3) {
+
+                    //If user answer (action.action_value) equals correct answer (action.value)
+
+                    if (action.action_value == action.value)
+                        filename = 'test_answer_correct_string';
+                    else
+                        filename = 'test_answer_incorrect_string';
+                }
+
+                questionsContent += Lancet.templateParse(filename, action);
+
+            });
+
+            questionsContent += '</div>';
+
+            if(question.type == 1 || question.type == 2) {
+
+                questionsContent += '<div class="col-sm-6">'+Lancet.templateParse('test_answers', question)+'</div>';
+
+            }
+
+            if(question.type == 3){
+
+                questionsContent += '</table>';
+
+            }
+
+            questionsContent += '</div></div>';
+
+        });

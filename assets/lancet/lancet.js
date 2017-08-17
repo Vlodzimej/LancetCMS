@@ -5,8 +5,20 @@
 (function(){
     window.temp = 0;
 	this.Lancet = {
-
-
+        templateParse : function(filename, data)
+        {
+            var result;
+            $.ajax({
+                url: 'index.php/Parser/template',
+                type: 'POST',
+                async: false,
+                data: { filename: filename, data: data }
+            }).done(function (data) {
+                result = data;
+                //Lancet.log('Parser responce: '+result);
+            });
+            return result;
+        },
         addFolder : function(title, folderID)
         {
             var data = { title : title, folderID : folderID }
@@ -128,7 +140,11 @@
 
             view.container = $('<\div>', {
                 id: 'lancet-view-container-'+view.ID,
-                class: 'lancet-view-container',
+                class: 'container',
+                width: '100%',
+                css : {
+                    padding: 0
+                }
             }).appendTo($(view.unitBody));
 
             view.events.resize = function(){
@@ -310,6 +326,28 @@
 		//Show alert window with error message
 		//The string load from CI: lang/error_messages_lang.php
 		//----------------------------------------------------------------------------
+        showImage: function(_filename)
+        {
+            var content = Lancet.templateParse('window_image', { filename : _catalogies.images + '/' + _filename });
+
+            new Lancet.View( {
+                modal: true,
+                buttons: 'close max',
+                title: _settings.title,
+                content: content,
+                body: {
+                    align: 'center',
+                    marginTop: 8,
+                    marginBottom: 8,
+                    marginLeft : 6,
+                    marginRight: 6,
+                    backgroundColor : '#ffffff'
+                },
+                width: 640,
+                height: 480,
+                properties: 'center modal fixed'
+            });
+        },
 		showMessage: function(_key){
 
 			$.ajax('index.php/main/get_message/'+_key)
@@ -634,7 +672,7 @@
 			this.parentIndex = _model.focusIndex;
 			//Если параметры заголовка не заданы, устанавливаем по-умолчанию
 			if (typeof params.title !== "undefined") {
-				this.title.height = params.title.height || "20";
+				this.title.height = params.title.height || "28";
 				this.title.paddingHorizontal = params.title.paddingHorizontal || "4";
 				this.title.paddingVertical = params.title.paddingVertical || "4";
 			}
@@ -812,6 +850,11 @@
                 .fail(function(){
                     Lancet.showMessage('error_loading_content_file');
                 });
+        },
+
+        parseTemplate: function() {
+
+
         },
 
         setTitle: function(value){
@@ -1968,6 +2011,39 @@
 						//str.splice(i, 2);
 						break;
 
+                    case '!window_image':
+                        command = str[i];
+
+                        if(typeof _view !== 'undefined') _view.destroy();
+
+                        var content = Lancet.parseTemplate('window_image', { filename : _catalogies.images + '/' + _console.variables[str[i+1]] });
+
+                        new Lancet.View( {
+                            modal: true,
+                            buttons: 'close',
+                            title: _settings.title,
+                            content: content,
+                            body: {
+                                align: 'center',
+                                marginTop: 8,
+                                marginBottom: 8,
+                                marginLeft : 6,
+                                marginRight: 6
+                            },
+                            inputs: [
+                                {
+                                    type : 'button',
+                                    value : 'Ok',
+                                    return : '!close this'
+                                }
+                            ],
+                            width: 640,
+                            height: 480,
+                            properties: 'center modal fixed'
+                        });
+                        str.splice(i, 2);
+                        break;
+
 					case '!alert':
 						command = str[i];
 						if(typeof _view !== 'undefined') _view.destroy();
@@ -1987,11 +2063,11 @@
 								{
                                     type : 'button',
                                     value : 'Ok',
-                                    return : '!view this close'
+                                    return : '!close this'
                                 }
 							],
-							width: 220,
-							height: 140,
+							width: 320,
+							height: 160,
 							properties: 'center modal fixed'
 						});
 						str.splice(i, 2);
@@ -2021,8 +2097,8 @@
 								marginRight: 6
 							},
 							inputs: [
-								{ type : 'button', value : 'Ok', return : '!view this close '+string },
-								{ type : 'button', value : 'Cancel', return : '!view close this' }
+								{ type : 'button', value : 'Ok', return : '!close this '+string },
+								{ type : 'button', value : 'Cancel', return : '!close this' }
 							],
 							width: 220,
 							height: 150,

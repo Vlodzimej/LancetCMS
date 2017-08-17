@@ -11,13 +11,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <title>
     </title>
+    <link href="../assets/bootstrap/bootstrap.css" rel="stylesheet">
 
     <script src="../assets/underscore.js"></script>
     <script src="../assets/jquery.js"></script>
     <script src="../assets/scriptjava.js"></script>
 
     <link href="../assets/lancet/lancet.css" rel="stylesheet">
-
     <script src="../assets/lancet/lancet.js"></script>
 
     <script src="../assets/ace/ace.js" type="text/javascript" charset="utf-8"></script>

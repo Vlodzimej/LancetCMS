@@ -19,6 +19,7 @@ $(function () {
             );
         },
         done: function (e, data) {
+
             if (data.result.error != undefined) {
                 $('#error').html(data.result.error); // выводим на страницу сообщение об ошибке если оно есть
                 $('#error').fadeIn('slow');
@@ -27,7 +28,7 @@ $(function () {
                 $('#error').hide(); //на случай если сообщение об ошибке уже отображалось
                 //$('#files').append("<img class='img-polaroid' style='margin-left:15%;padding:10px;width:auto;height:250px' src=''>");
                 $('#success').fadeIn('slow');
-                //$('#current-image').attr('src', '/'+Lancet.Settings.catalogies.images+'/'+data.result.file_name);
+                $('#current-image').attr('src', '/'+Lancet.Settings.catalogies.images+'/'+data.result.file_name);
                 //console.log('/'+Lancet.Settings.catalogies.images+'/'+data.result.file_name);
                 window.images[window.images.length] = data.result.imageID;
                 //Скрываем полосу состояния загрузики до нуля и скрываем ее

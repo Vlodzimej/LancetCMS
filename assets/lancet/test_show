@@ -1,0 +1,121 @@
+var view = Lancet.initializeView();
+var container = view.container;
+var parent = Lancet.Model.views[view.parentIndex];
+
+var units;
+var processes;
+
+var currentUnit;
+
+$.ajax({
+    url: 'index.php/test/processlist',
+    type: 'GET',
+    async: false
+}).done(function(result) {
+    processList = $.parseJSON(result);
+    console.log('PROCESSES: '+result);
+});
+
+
+var content = Lancet.templateParse('test_manager', { processList : processList });
+
+container.html(content);
+
+$('#lancet-test-manager-select-process').on('click', function(){
+
+    currentUnit = this.value;
+    console.log(currentUnit);
+
+    $.ajax({
+        url: 'index.php/test/process/'+currentUnit,
+        type: 'GET',
+        async: false
+    }).done(function(result){
+
+        data = $.parseJSON(result);
+        console.log(data);
+
+        var count = 0;
+
+        var renderedQuestions = '';
+
+        _.each(data.questions, function(question, index){
+
+            count++;
+
+            if(question.completed)
+                renderedQuestions += `<div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-sm-1"><h4><span class="badge badge-success">`+count+`</span></h4></div>
+                                                <div class="col-sm-10"><h4><p><b>`+question.title+`</b></p><p>`+question.content+`</p></h4></div>
+                                                <div class="col-sm-1"><h4><span class="label label-success pull-right"><span class="glyphicon glyphicon-ok"></span></span></h4></div>
+                                            </div>
+                                        </div>`;
+
+            else
+                renderedQuestions += `<div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-sm-1"><h4><span class="badge badge-success">`+count+`</span></h4></div>
+                                                <div class="col-sm-10"><h4><p><b>`+question.title+`</b></p><p>`+question.content+`</p></h4></div>
+                                                <div class="col-sm-1"><h4><span class="label label-danger pull-right"><span class="glyphicon glyphicon-remove"></span></span></h4></div>
+                                            </div>
+                                        </div>`;
+
+            renderedQuestions += '<div class="panel-body">';
+
+
+            var renderedActions = '';
+            var renderedAnswers = '';
+
+            switch(question.type) {
+                //Single and multiple selection
+                case '1':
+                case '2':
+
+                    _.each(question.actions, function(action, index) {
+                        if(action.correct == '1')
+                            renderedActions += '<p class="text-success">'+action.content+'</p>';
+                        else
+                            renderedActions += '<p class="text-danger"><del>'+action.content+'</del></p>';
+                    });
+
+
+                    _.each(question.answers, function(answer, index) {
+                        renderedAnswers += '<p class="text-primary">'+answer.content+'</p>';
+                    });
+                    break;
+
+                //Enter the text string
+                case '3':
+
+                    _.each(question.actions, function(action, index) {
+                        if(action.value == action.action_value)
+                            renderedActions += '<p class="text-success">'+action.action_value+'</p>';
+                        else
+                            renderedActions += '<p class="text-danger"><del>'+action.action_value+'</del></p>';
+
+                        renderedAnswers += '<p class="text-primary">'+actions.value+'</p>';
+                    });
+
+
+                    break;
+
+            }
+
+            renderedQuestions += '<div class="row"><div class="col-sm-6">'+renderedActions+'</div><div class="col-sm-6">'+renderedAnswers+'</div></div>';
+
+            renderedQuestions += '</div></div>';
+        });
+
+
+
+        var renderedProcess = Lancet.templateParse('test_process', data.process);
+
+        content = renderedProcess+renderedQuestions;
+
+        $('#lancet-test-manage-panel').html(content);
+
+    });
+});
