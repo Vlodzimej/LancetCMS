@@ -123,7 +123,8 @@ class Account extends CI_Controller
     }
 
     //Check current user authorization
-    function check_logged_in()
+    //GET
+    function logged_in()
     {
         $logged = $this->session->userdata('logged_in');
         if(!$logged || $logged == null)

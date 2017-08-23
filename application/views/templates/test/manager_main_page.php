@@ -9,10 +9,10 @@
 
 <div class="form-group text-center">
     Question
-    <input type="text" class="form-control" placeholder="Question title" value='{title}'>
+    <input type="text" class="form-control" placeholder="Question title" value='{title}' id='lancet-test-manager-question-title'>
 </div>
 
 <div class="form-group text-center">
     Content
-    <textarea class='form-control' style='resize: none; height: 200px;'>{content}</textarea>
+    <textarea class='form-control' style='resize: none; height: 200px;' id='lancet-test-manager-question-content'>{content}</textarea>
 </div>

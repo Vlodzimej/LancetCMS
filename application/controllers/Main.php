@@ -152,17 +152,16 @@ class Main extends CI_Controller {
 		$this->View_model->delete_view($name);
 	}
 
+
+	public function content()
+	{
+		$this->load->helper('file');
+		$filename = $this->input->get('filename');
+		echo read_file(base_url().$filename);
+	}
 //------------------------------------------------------------------------------------
 //IMAGES FUNCTIONS
 //------------------------------------------------------------------------------------
-
-	public function load_content()
-	{
-		$this->load->helper('file');
-		$filename = $this->input->post('filename');
-		echo read_file(base_url().$filename);
-	}
-
     public function upload_file()
     {
         $config['upload_path']      = './uploads/';
@@ -201,11 +200,13 @@ class Main extends CI_Controller {
         $data = $this->image_info($imageID);
         echo $data->filename;
     }
+
     public function image_filename($imageID)
     {
         $data = $this->image_info($imageID);
         return $data->filename;
     }
+
     public function image_info($imageID)
     {
         $this->load->model('Image_model');

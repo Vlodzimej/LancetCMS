@@ -264,7 +264,12 @@
                 }
             });
         },
-
+        deleteImage : function(imageID, callback) {
+            $.get('index.php/main/delete_image/'+imageID).
+            done(function(){
+                callback();
+            });
+        },
         getImageFileName: function(imageID) {
             var result = $.ajax({
                 url: 'index.php/main/get_image_filename/'+imageID,
@@ -300,11 +305,28 @@
 			$('#'+object.id).attr('src', '/'+_catalogies.images+'/'+object.filename);
         },
 
+        getTextFile: function(filename){
+            var result = '';
+            $.ajax(
+            {
+                url: 'index.php/main/content/',
+                type: 'GET',
+                data : { filename : filename },
+                async: false
+            }).done(function(data){
+                    result = data;
+                })
+                .fail(function(){
+                    this.showMessage('error_loading_content_file');
+                });
+            return result;
+        },
 		loadContent: function(filename, id){
-			$.post('index.php/main/load_content/', { 'filename' : filename })
+			$.get('index.php/main/content/', {
+			    filename : filename
+            })
 			.done(function(data){
 				$('#'+id).html(data);
-				//console.log(id);
 			})
 			.fail(function(){
 				this.showMessage('error_loading_content_file');
@@ -326,6 +348,67 @@
 		//Show alert window with error message
 		//The string load from CI: lang/error_messages_lang.php
 		//----------------------------------------------------------------------------
+        showInfoView: function(_title, _content)
+        {
+            new Lancet.View( {
+                modal: true,
+                buttons: 'close',
+                title: _title,
+                content: _content,
+                body: {
+                    align: 'center',
+                    marginTop: 8,
+                    marginBottom: 8,
+                    marginLeft : 6,
+                    marginRight: 6
+                },
+                inputs: [
+                    {
+                        type : 'button',
+                        value : 'Ok',
+                        return : '!close this'
+                    }
+                ],
+                width: 320,
+                height: 160,
+                properties: 'center modal fixed'
+            });
+        },
+        showConfirmView: function(_title, _content, _callback)
+        {
+            var _view = new Lancet.View( {
+                modal: true,
+                buttons: 'close',
+                title: _title,
+                content: _content,
+                body: {
+                    align: 'center',
+                    marginTop: 8,
+                    marginBottom: 8,
+                    marginLeft : 24,
+                    marginRight: 24
+                },
+                width: 320,
+                height: 160,
+                properties: 'center modal fixed'
+            });
+
+            $('<button>', {
+                text : 'Ok',
+                class : 'btn btn-default pull-left'
+            }).on('click', function(){
+                _view.destroy();
+                _callback();
+            }).appendTo(_view.unitBody);
+
+            $('<button>', {
+                text : 'Cancel',
+                class : 'btn btn-default pull-right'
+            }).on('click', function(){
+                _view.destroy();
+            }).appendTo(_view.unitBody);
+
+        },
         showImage: function(_filename)
         {
             var content = Lancet.templateParse('window_image', { filename : _catalogies.images + '/' + _filename });
@@ -337,10 +420,6 @@
                 content: content,
                 body: {
                     align: 'center',
-                    marginTop: 8,
-                    marginBottom: 8,
-                    marginLeft : 6,
-                    marginRight: 6,
                     backgroundColor : '#ffffff'
                 },
                 width: 640,
@@ -466,14 +545,6 @@
 				timeline: 'timeline',
 				root: 'lancet'
 			},
-			colors: {
-				window: {
-					title: {
-						active: '#6699ff',
-						unactive: '#cccccc',
-					},
-				}
-			}
 		},
 		Controller: {
 			mouse: {
@@ -741,7 +812,10 @@
 				this.body.marginRight = params.body.marginRight || 0;
 				this.body.marginTop = params.body.marginTop || 0;
 				this.body.marginBottom = params.body.marginBottom || 0;
+
 				this.body.height = this.height - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom;
+
+
 				this.body.align = params.body.align;
 				this.body.backgroundColor = params.body.backgroundColor;
 				this.body.color = params.body.color;
@@ -752,7 +826,7 @@
 				this.body.marginRight = 0;
 				this.body.marginTop = 0;
 				this.body.marginBottom = 0;
-				this.body.height = this.height - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom;
+				this.body.height = this.height - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom + 8;
 			}
 			//Load HTML-tags and other content of View
 			this.content = params.content;
@@ -827,7 +901,7 @@
 			if(_settings.debugMode) console.log(str);
 		},
 		str2bool: function(value) {
-			if(value === "true")
+			if(value === "true" || value === '1')
 				return true;
 			else
 				return false;
@@ -839,7 +913,7 @@
 
         loadContent: function(filename){
             var _view = this;
-            $.post('index.php/main/load_content/', { 'filename' : filename })
+            $.get('index.php/main/content/', { 'filename' : filename })
                 .done(function(data){
                     if(data === null || data == '' || !data || typeof data == 'undefined'){
                         Lancet.showMessage('error_loading_content_file');
@@ -850,11 +924,6 @@
                 .fail(function(){
                     Lancet.showMessage('error_loading_content_file');
                 });
-        },
-
-        parseTemplate: function() {
-
-
         },
 
         setTitle: function(value){
@@ -995,14 +1064,15 @@
 			//Link to View in focus
 			var viewFocus = _model.views[Lancet.Model.focusIndex];
 			//Color of head set unactive if his View(window) has focus
-			if(typeof viewFocus !== "undefined")
-				$(viewFocus.unitTitle).css({ backgroundColor: _colors.window.title.unactive });
+			if(typeof viewFocus !== "undefined") {
+                $(viewFocus.unitTitle).removeClass('active').addClass('unactive');
+            }
 			//Set index of this View to focus index
 			Lancet.Model.focusIndex = this.index;
 			//Link to new View in focus
 			viewFocus = Lancet.Model.views[Lancet.Model.focusIndex];
 			//Set active color of head
-			viewFocus.unitTitle.css({ backgroundColor: _colors.window.title.active  });
+            $(viewFocus.unitTitle).removeClass('unactive').addClass('active');
 			//Increase click count
 			var count = ++Lancet.Model.clicksCount;
 			//Set new z-index from click count
@@ -1119,11 +1189,11 @@
 		},
 		setBodyHeight: function() {
 			//this.body.height = this.height - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom - 2;
-            var height = this.unit.height() - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom;
+            var height = this.unit.height() - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom + 8;
 			this.unitBody.css( { height: height } );
 		},
 		getBodyHeight: function() {
-            var height = this.unit.height() - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom - 2;
+            var height = this.unit.height() - this.title.height - this.title.paddingVertical*2 -  this.body.marginTop - this.body.marginBottom + 8;
             return height;
 		},
 		//Set type of cursor
@@ -1495,14 +1565,15 @@
 			debugText += "Fullscreen: "+_desktop.fullscreen+"\n";
 			Lancet.log(debugText);
 
-			$.ajax('index.php/account/check_logged_in').
+			$.ajax('index.php/account/logged_in').
                 done(function(result) {
                     if(result === '1') {
                         Lancet.log('Logged_in: true');
                         $.ajax('index.php/account/current_account').
                             done(function(result){
                                 Lancet.Account = $.parseJSON(result);
-                                Lancet.Controller.execute('!var|<br>Hello, '+Lancet.Account.login+'!<br><br>|hello !alert hello')
+                                if(_settings.greeting)
+                                    Lancet.Controller.execute('!var|<br>Hello, '+Lancet.Account.login+'!<br><br>|hello !alert hello')
                         });
                     } else {
                         Lancet.log('Logged_in: false');
@@ -2047,29 +2118,9 @@
 					case '!alert':
 						command = str[i];
 						if(typeof _view !== 'undefined') _view.destroy();
-						new Lancet.View( {
-							modal: true,
-							buttons: 'close',
-							title: _settings.title,
-							content: _console.variables[str[i+1]],
-							body: {
-								align: 'center',
-								marginTop: 8,
-								marginBottom: 8,
-								marginLeft : 6,
-								marginRight: 6
-							},
-							inputs: [
-								{
-                                    type : 'button',
-                                    value : 'Ok',
-                                    return : '!close this'
-                                }
-							],
-							width: 320,
-							height: 160,
-							properties: 'center modal fixed'
-						});
+
+						Lancet.showInfoView(_settings.title, _console.variables[str[i+1]]);
+
 						str.splice(i, 2);
 						break;
 
@@ -2219,6 +2270,12 @@
 					else
 						_settings.debugMode = false;
 				break;
+				case '!greeting':
+                    if(str[i+1] == "on")
+                        _settings.greeting = true;
+                    else
+                        _settings.greeting = false;
+                    break;
 				case '!set_catalog':
 					_catalogies[str[i+1]] = str[i+2];
 				break;
@@ -2469,7 +2526,6 @@
 	var _settings = Lancet.Settings;
 	var _classes = Lancet.Settings.classes;
 	var _catalogies = Lancet.Settings.catalogies;
-	var _colors = Lancet.Settings.colors;
 	var _components = Lancet.Components;
 	var _controller = Lancet.Controller;
 	var _console = Lancet.Controller.console;
@@ -2480,6 +2536,6 @@
 }).call(this);
 
 $(function(){
-    Lancet.initialize('settings');
+    Lancet.initialize('settings.cfg');
 });
 //----------------------------------------------------------------------------------------------

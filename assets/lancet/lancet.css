@@ -102,6 +102,12 @@ body {
   text-shadow: black 0 0 2px;
   overflow: hidden;
 }
+.lancet-view .title.active {
+  background-color: #428bca;
+}
+.lancet-view .title.unactive {
+  background-color: #cccccc;
+}
 .lancet-view-body p {
   padding: 0px;
 }
@@ -114,7 +120,7 @@ body {
   overflow: hidden;
   cursor: pointer;
   float: right;
-  background-color: #ff9696;
+  background-color: #d9534f;
   border: 1px solid black;
   border-radius: 6px;
   -moz-border-radius: 6px;

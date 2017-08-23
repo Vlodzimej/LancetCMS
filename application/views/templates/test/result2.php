@@ -1,28 +1,19 @@
 <div class='row'>
-    <div class='col-sm-1'></div>
-    <div class='col-sm-10 text-center'>
-
-        <h4>Choose process
-        </h4>
-        <select class='form-control' id='lancet-test-manager-select-process'>
-
-            {processList}
-
-            <option value='{process_ID}'>{firstname} {surname} - {title} ({start})</option>
-
-            {/processList}
-
-        </select>
+    <div class='col-sm-12'>
+        <button class='btn btn-default' onClick='javascript: CallPrint("lancet-print-content");'><span class="glyphicon glyphicon-print" title='Print'></span> Print</button>
         <hr>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-sm-12 text-center'>
         <div class="panel panel-default">
             <div class='panel-body' id='lancet-print-content'>
                 <div id='lancet-test-manage-panel'>
                 </div>
             </div>
         </div>
-        <button class='btn btn-primary btn-lg' onClick='javascript: CallPrint("lancet-print-content");'><span class="glyphicon glyphicon-print"></span></button>
     </div>
-    <div class='col-sm-1'></div>
 </div>
 
 <script language="javascript">
